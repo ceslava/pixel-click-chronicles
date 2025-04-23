@@ -1,12 +1,33 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from 'react';
+import StartScreen from '@/components/StartScreen';
+import GameScreen from '@/components/GameScreen';
+import LeaderboardScreen from '@/components/LeaderboardScreen';
 
 const Index = () => {
+  const [gameState, setGameState] = useState<'start' | 'playing' | 'finished'>('start');
+  const [finalTime, setFinalTime] = useState<number>(0);
+
+  const handleGameStart = () => {
+    setGameState('playing');
+  };
+
+  const handleGameFinish = (time: number) => {
+    setFinalTime(time);
+    setGameState('finished');
+  };
+
+  const handlePlayAgain = () => {
+    setGameState('start');
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex items-center justify-center p-4">
+      {gameState === 'start' && <StartScreen onStart={handleGameStart} />}
+      {gameState === 'playing' && <GameScreen onFinish={handleGameFinish} />}
+      {gameState === 'finished' && (
+        <LeaderboardScreen time={finalTime} onPlayAgain={handlePlayAgain} />
+      )}
     </div>
   );
 };
