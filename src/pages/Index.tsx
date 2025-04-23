@@ -9,14 +9,25 @@ const Index = () => {
   const [gameState, setGameState] = useState<'start' | 'playing' | 'finished' | 'rankings'>('start');
   const [finalTime, setFinalTime] = useState<number>(0);
   const [totalPixels, setTotalPixels] = useState<number>(300);
+  const [clickedPixels, setClickedPixels] = useState<number>(0);
+  const [isAbandoned, setIsAbandoned] = useState<boolean>(false);
 
   const handleGameStart = (pixels: number) => {
     setTotalPixels(pixels);
     setGameState('playing');
+    setIsAbandoned(false);
   };
 
   const handleGameFinish = (time: number) => {
     setFinalTime(time);
+    setClickedPixels(totalPixels);
+    setGameState('finished');
+  };
+
+  const handleAbandonGame = (time: number, clicked: number) => {
+    setFinalTime(time);
+    setClickedPixels(clicked);
+    setIsAbandoned(true);
     setGameState('finished');
   };
 
@@ -26,10 +37,6 @@ const Index = () => {
 
   const handleShowRankings = () => {
     setGameState('rankings');
-  };
-
-  const handleAbandonGame = () => {
-    setGameState('start');
   };
 
   return (
@@ -46,7 +53,10 @@ const Index = () => {
       )}
       {gameState === 'finished' && (
         <LeaderboardScreen 
-          time={finalTime} 
+          time={finalTime}
+          clickedPixels={clickedPixels}
+          totalPixels={totalPixels}
+          abandoned={isAbandoned}
           onPlayAgain={handlePlayAgain}
         />
       )}

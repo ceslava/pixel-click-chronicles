@@ -7,10 +7,13 @@ import { Trophy } from "lucide-react";
 
 interface LeaderboardScreenProps {
   time: number;
+  clickedPixels: number;
+  totalPixels: number;
+  abandoned: boolean;
   onPlayAgain: () => void;
 }
 
-const LeaderboardScreen = ({ time, onPlayAgain }: LeaderboardScreenProps) => {
+const LeaderboardScreen = ({ time, clickedPixels, totalPixels, abandoned, onPlayAgain }: LeaderboardScreenProps) => {
   const [playerName, setPlayerName] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
@@ -26,12 +29,17 @@ const LeaderboardScreen = ({ time, onPlayAgain }: LeaderboardScreenProps) => {
       <CardHeader>
         <CardTitle className="text-3xl font-bold text-center flex items-center justify-center gap-2">
           <Trophy className="w-8 h-8 text-yellow-400" />
-          ¡Completado!
+          {abandoned ? "Juego Abandonado" : "¡Completado!"}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="text-center text-2xl font-mono">
-          Tu tiempo: {time}s
+        <div className="text-center space-y-2">
+          <p className="text-xl font-mono">
+            Tiempo: {time}s
+          </p>
+          <p className="text-lg">
+            Píxeles clickeados: {clickedPixels} de {totalPixels} ({Math.round((clickedPixels / totalPixels) * 100)}%)
+          </p>
         </div>
         
         {!submitted ? (

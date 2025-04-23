@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 interface GameScreenProps {
   onFinish: (time: number) => void;
-  onAbandon: () => void;
+  onAbandon: (time: number, clickedPixels: number) => void;
   totalPixels?: number;
 }
 
@@ -42,6 +42,11 @@ const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps)
     }
   };
 
+  const handleAbandon = () => {
+    const clickedPixels = pixels.filter(pixel => pixel).length;
+    onAbandon(elapsedTime, clickedPixels);
+  };
+
   return (
     <div className="w-full max-w-4xl space-y-4">
       <div className="flex justify-between items-center mb-4 bg-gray-900/50 p-4 rounded-lg">
@@ -66,7 +71,7 @@ const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps)
       </div>
       <Button 
         variant="outline" 
-        onClick={onAbandon}
+        onClick={handleAbandon}
         className="w-full max-w-md mx-auto"
       >
         Abandonar Juego
