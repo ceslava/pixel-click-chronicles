@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useScreenResolution } from "@/hooks/useScreenResolution";
 
 interface StartScreenProps {
   onStart: (pixels: number) => void;
@@ -10,8 +9,6 @@ interface StartScreenProps {
 }
 
 const StartScreen = ({ onStart, onShowRankings }: StartScreenProps) => {
-  const totalScreenPixels = useScreenResolution();
-
   return (
     <Card className="w-full max-w-md bg-opacity-90 backdrop-blur-sm bg-gray-900">
       <CardHeader>
@@ -37,9 +34,6 @@ const StartScreen = ({ onStart, onShowRankings }: StartScreenProps) => {
               <SelectItem value="300">300 píxeles (normal)</SelectItem>
               <SelectItem value="400">400 píxeles</SelectItem>
               <SelectItem value="500">500 píxeles</SelectItem>
-              <SelectItem value={totalScreenPixels.toString()}>
-                Todos los píxeles de mi pantalla ({totalScreenPixels.toLocaleString()} píxeles)
-              </SelectItem>
             </SelectContent>
           </Select>
           <div className="space-y-2">
