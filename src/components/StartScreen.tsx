@@ -1,12 +1,14 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface StartScreenProps {
-  onStart: () => void;
+  onStart: (pixels: number) => void;
+  onShowRankings: () => void;
 }
 
-const StartScreen = ({ onStart }: StartScreenProps) => {
+const StartScreen = ({ onStart, onShowRankings }: StartScreenProps) => {
   return (
     <Card className="w-full max-w-md bg-opacity-90 backdrop-blur-sm bg-gray-900">
       <CardHeader>
@@ -21,12 +23,28 @@ const StartScreen = ({ onStart }: StartScreenProps) => {
           <p>⏱️ Tu tiempo será registrado</p>
           <p>🏆 ¡Compite por estar en el top 100!</p>
         </div>
-        <Button 
-          onClick={onStart}
-          className="w-full bg-primary hover:bg-primary/90"
-        >
-          Comenzar Juego
-        </Button>
+        <div className="space-y-4">
+          <Select defaultValue="300" onValueChange={(value) => onStart(Number(value))}>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecciona el número de píxeles" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="100">100 píxeles</SelectItem>
+              <SelectItem value="200">200 píxeles</SelectItem>
+              <SelectItem value="300">300 píxeles (normal)</SelectItem>
+              <SelectItem value="400">400 píxeles</SelectItem>
+              <SelectItem value="500">500 píxeles</SelectItem>
+            </SelectContent>
+          </Select>
+          <div className="space-y-2">
+            <Button onClick={() => onStart(300)} className="w-full bg-primary hover:bg-primary/90">
+              Comenzar Juego
+            </Button>
+            <Button onClick={onShowRankings} variant="outline" className="w-full">
+              Ver Ranking Global
+            </Button>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

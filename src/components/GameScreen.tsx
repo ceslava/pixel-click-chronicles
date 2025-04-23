@@ -1,22 +1,24 @@
 
 import { useEffect, useState } from 'react';
 import { Timer } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 
 interface GameScreenProps {
   onFinish: (time: number) => void;
+  onAbandon: () => void;
+  totalPixels?: number;
 }
 
-const GameScreen = ({ onFinish }: GameScreenProps) => {
+const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps) => {
   const [pixels, setPixels] = useState<boolean[]>([]);
   const [remainingPixels, setRemainingPixels] = useState(0);
   const [startTime] = useState(Date.now());
   const [elapsedTime, setElapsedTime] = useState(0);
 
   useEffect(() => {
-    const gridSize = 20 * 15; // 300 píxeles para empezar
-    setPixels(new Array(gridSize).fill(false));
-    setRemainingPixels(gridSize);
-  }, []);
+    setPixels(new Array(totalPixels).fill(false));
+    setRemainingPixels(totalPixels);
+  }, [totalPixels]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -51,7 +53,7 @@ const GameScreen = ({ onFinish }: GameScreenProps) => {
           {elapsedTime}s
         </div>
       </div>
-      <div className="grid grid-cols-20 gap-1 p-4 bg-gray-900/30 rounded-lg">
+      <div className={`grid grid-cols-20 gap-1 p-4 bg-gray-900/30 rounded-lg`}>
         {pixels.map((clicked, index) => (
           <button
             key={index}
@@ -62,6 +64,13 @@ const GameScreen = ({ onFinish }: GameScreenProps) => {
           />
         ))}
       </div>
+      <Button 
+        variant="outline" 
+        onClick={onAbandon}
+        className="w-full max-w-md mx-auto"
+      >
+        Abandonar Juego
+      </Button>
     </div>
   );
 };
