@@ -47,6 +47,24 @@ const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps)
     onAbandon(elapsedTime, clickedPixels);
   };
 
+  // Determine the number of columns based on pixel count
+  const getGridColumns = () => {
+    if (totalPixels <= 300) return 'grid-cols-20';
+    if (totalPixels <= 500) return 'grid-cols-25';
+    if (totalPixels <= 1000) return 'grid-cols-30';
+    if (totalPixels <= 2000) return 'grid-cols-40';
+    return 'grid-cols-50';
+  };
+
+  // Calculate the pixel size class based on pixel count
+  const getPixelSize = () => {
+    if (totalPixels <= 300) return 'pt-[100%]';
+    if (totalPixels <= 500) return 'pt-[100%]';
+    if (totalPixels <= 1000) return 'pt-[90%]';
+    if (totalPixels <= 2000) return 'pt-[80%]';
+    return 'pt-[75%]';
+  };
+
   return (
     <div className="w-full max-w-4xl space-y-4">
       <div className="flex justify-between items-center mb-4 bg-gray-900/50 p-4 rounded-lg">
@@ -58,14 +76,14 @@ const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps)
           {elapsedTime}s
         </div>
       </div>
-      <div className={`grid grid-cols-20 gap-1 p-4 bg-gray-900/30 rounded-lg`}>
+      <div className={`grid ${getGridColumns()} gap-0.5 p-4 bg-gray-900/30 rounded-lg`}>
         {pixels.map((clicked, index) => (
           <button
             key={index}
             onClick={() => handlePixelClick(index)}
-            className={`w-full pt-[100%] relative ${
+            className={`w-full ${getPixelSize()} relative ${
               clicked ? 'bg-primary' : 'bg-neutral-600'
-            } rounded-sm hover:opacity-90 transition-colors`}
+            } rounded-none hover:opacity-90 transition-colors`}
           />
         ))}
       </div>

@@ -29,11 +29,13 @@ const StartScreen = ({ onStart, onShowRankings }: StartScreenProps) => {
               <SelectValue placeholder="Selecciona el número de píxeles" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="100">100 píxeles</SelectItem>
-              <SelectItem value="200">200 píxeles</SelectItem>
+              <SelectItem value="100">100 píxeles (fácil)</SelectItem>
+              <SelectItem value="200">200 píxeles (fácil)</SelectItem>
               <SelectItem value="300">300 píxeles (normal)</SelectItem>
-              <SelectItem value="400">400 píxeles</SelectItem>
-              <SelectItem value="500">500 píxeles</SelectItem>
+              <SelectItem value="500">500 píxeles (difícil)</SelectItem>
+              <SelectItem value="1000">1000 píxeles (muy difícil)</SelectItem>
+              <SelectItem value="2000">2000 píxeles (extremo)</SelectItem>
+              <SelectItem value="3000">3000 píxeles (imposible)</SelectItem>
             </SelectContent>
           </Select>
           <div className="space-y-2">
