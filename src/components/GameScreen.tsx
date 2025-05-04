@@ -59,10 +59,10 @@ const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps)
   // Calculate the pixel size class based on pixel count
   const getPixelSize = () => {
     if (totalPixels <= 300) return 'pt-[100%]';
-    if (totalPixels <= 500) return 'pt-[100%]';
-    if (totalPixels <= 1000) return 'pt-[90%]';
-    if (totalPixels <= 2000) return 'pt-[80%]';
-    return 'pt-[75%]';
+    if (totalPixels <= 500) return 'pt-[80%]';
+    if (totalPixels <= 1000) return 'pt-[70%]';
+    if (totalPixels <= 2000) return 'pt-[60%]';
+    return 'pt-[50%]';
   };
 
   return (
