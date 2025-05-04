@@ -49,20 +49,22 @@ const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps)
 
   // Determine the number of columns based on pixel count
   const getGridColumns = () => {
+    if (totalPixels <= 100) return 'grid-cols-10';
     if (totalPixels <= 300) return 'grid-cols-20';
     if (totalPixels <= 500) return 'grid-cols-25';
-    if (totalPixels <= 1000) return 'grid-cols-30';
-    if (totalPixels <= 2000) return 'grid-cols-40';
-    return 'grid-cols-50';
+    if (totalPixels <= 1000) return 'grid-cols-32';
+    if (totalPixels <= 2000) return 'grid-cols-45';
+    return 'grid-cols-55';
   };
 
   // Calculate the pixel size class based on pixel count
   const getPixelSize = () => {
-    if (totalPixels <= 300) return 'pt-[100%]';
-    if (totalPixels <= 500) return 'pt-[80%]';
-    if (totalPixels <= 1000) return 'pt-[70%]';
-    if (totalPixels <= 2000) return 'pt-[60%]';
-    return 'pt-[50%]';
+    if (totalPixels <= 100) return 'h-3 w-3';
+    if (totalPixels <= 300) return 'h-2.5 w-2.5';
+    if (totalPixels <= 500) return 'h-2 w-2';
+    if (totalPixels <= 1000) return 'h-1.5 w-1.5';
+    if (totalPixels <= 2000) return 'h-1 w-1';
+    return 'h-0.5 w-0.5';
   };
 
   return (
@@ -81,7 +83,7 @@ const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps)
           <button
             key={index}
             onClick={() => handlePixelClick(index)}
-            className={`w-full ${getPixelSize()} relative ${
+            className={`${getPixelSize()} ${
               clicked ? 'bg-primary' : 'bg-neutral-600'
             } rounded-none hover:opacity-90 transition-colors`}
           />
