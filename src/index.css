@@ -36,3 +36,30 @@
     @apply bg-[#1A1F2C] text-white;
   }
 }
+
+@layer utilities {
+  .grid-cols-15 {
+    grid-template-columns: repeat(15, minmax(0, 1fr));
+  }
+  .grid-cols-20 {
+    grid-template-columns: repeat(20, minmax(0, 1fr));
+  }
+  .grid-cols-25 {
+    grid-template-columns: repeat(25, minmax(0, 1fr));
+  }
+  .grid-cols-30 {
+    grid-template-columns: repeat(30, minmax(0, 1fr));
+  }
+  .grid-cols-40 {
+    grid-template-columns: repeat(40, minmax(0, 1fr));
+  }
+  .grid-cols-45 {
+    grid-template-columns: repeat(45, minmax(0, 1fr));
+  }
+  .grid-cols-50 {
+    grid-template-columns: repeat(50, minmax(0, 1fr));
+  }
+  .grid-cols-55 {
+    grid-template-columns: repeat(55, minmax(0, 1fr));
+  }
+}

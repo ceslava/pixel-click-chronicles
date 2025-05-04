@@ -50,11 +50,12 @@ const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps)
   // Determine the number of columns based on pixel count
   const getGridColumns = () => {
     if (totalPixels <= 100) return 'grid-cols-10';
+    if (totalPixels <= 200) return 'grid-cols-15';
     if (totalPixels <= 300) return 'grid-cols-20';
     if (totalPixels <= 500) return 'grid-cols-25';
-    if (totalPixels <= 1000) return 'grid-cols-32';
-    if (totalPixels <= 2000) return 'grid-cols-45';
-    return 'grid-cols-55';
+    if (totalPixels <= 1000) return 'grid-cols-30';
+    if (totalPixels <= 2000) return 'grid-cols-40';
+    return 'grid-cols-50';
   };
 
   // Calculate the pixel size class based on pixel count
