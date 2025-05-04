@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { Timer } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useScreenResolution } from '@/hooks/useScreenResolution';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface GameScreenProps {
   onFinish: (time: number) => void;
@@ -76,18 +75,18 @@ const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps)
   };
 
   return (
-    <div className="w-full max-w-4xl space-y-4">
-      <div className="flex justify-between items-center mb-4 bg-gray-900/50 p-4 rounded-lg">
-        <div className="text-xl font-bold">
+    <div className="w-full h-[90vh] flex flex-col space-y-2 max-w-full">
+      <div className="flex justify-between items-center p-2 bg-gray-900/50 rounded-lg">
+        <div className="text-sm md:text-lg font-bold">
           Píxeles restantes: {remainingPixels} / {pixels.length}
         </div>
-        <div className="flex items-center gap-2 text-xl font-mono">
-          <Timer className="w-6 h-6" />
+        <div className="flex items-center gap-2 text-sm md:text-lg font-mono">
+          <Timer className="w-4 h-4 md:w-6 md:h-6" />
           {elapsedTime}s
         </div>
       </div>
-      <ScrollArea className="h-[70vh] rounded-lg">
-        <div className={`grid ${getGridColumns()} gap-0.5 p-4 bg-gray-900/30 rounded-lg`}>
+      <div className="flex-grow w-full overflow-hidden rounded-lg bg-gray-900/30">
+        <div className={`grid ${getGridColumns()} gap-0 w-full h-full`}>
           {pixels.map((clicked, index) => (
             <button
               key={index}
@@ -98,11 +97,11 @@ const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps)
             />
           ))}
         </div>
-      </ScrollArea>
+      </div>
       <Button 
         variant="outline" 
         onClick={handleAbandon}
-        className="w-full max-w-md mx-auto"
+        className="w-full"
       >
         Abandonar Juego
       </Button>
