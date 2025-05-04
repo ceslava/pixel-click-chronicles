@@ -6,8 +6,8 @@ export const useScreenResolution = () => {
 
   useEffect(() => {
     const calculateTotalPixels = () => {
-      const width = window.screen.width;
-      const height = window.screen.height;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
       setTotalPixels(width * height);
     };
 

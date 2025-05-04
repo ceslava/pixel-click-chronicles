@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { Timer } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { useScreenResolution } from '@/hooks/useScreenResolution';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface GameScreenProps {
   onFinish: (time: number) => void;
@@ -14,11 +16,14 @@ const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps)
   const [remainingPixels, setRemainingPixels] = useState(0);
   const [startTime] = useState(Date.now());
   const [elapsedTime, setElapsedTime] = useState(0);
+  const viewportPixels = useScreenResolution();
 
   useEffect(() => {
-    setPixels(new Array(totalPixels).fill(false));
-    setRemainingPixels(totalPixels);
-  }, [totalPixels]);
+    // Ensure totalPixels never exceeds 90% of the viewport size
+    const adjustedPixels = Math.min(totalPixels, Math.floor(viewportPixels * 0.9));
+    setPixels(new Array(adjustedPixels).fill(false));
+    setRemainingPixels(adjustedPixels);
+  }, [totalPixels, viewportPixels]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -49,22 +54,24 @@ const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps)
 
   // Determine the number of columns based on pixel count
   const getGridColumns = () => {
-    if (totalPixels <= 100) return 'grid-cols-10';
-    if (totalPixels <= 200) return 'grid-cols-15';
-    if (totalPixels <= 300) return 'grid-cols-20';
-    if (totalPixels <= 500) return 'grid-cols-25';
-    if (totalPixels <= 1000) return 'grid-cols-30';
-    if (totalPixels <= 2000) return 'grid-cols-40';
+    const actualPixels = pixels.length;
+    if (actualPixels <= 100) return 'grid-cols-10';
+    if (actualPixels <= 200) return 'grid-cols-15';
+    if (actualPixels <= 300) return 'grid-cols-20';
+    if (actualPixels <= 500) return 'grid-cols-25';
+    if (actualPixels <= 1000) return 'grid-cols-30';
+    if (actualPixels <= 2000) return 'grid-cols-40';
     return 'grid-cols-50';
   };
 
   // Calculate the pixel size class based on pixel count
   const getPixelSize = () => {
-    if (totalPixels <= 100) return 'h-3 w-3';
-    if (totalPixels <= 300) return 'h-2.5 w-2.5';
-    if (totalPixels <= 500) return 'h-2 w-2';
-    if (totalPixels <= 1000) return 'h-1.5 w-1.5';
-    if (totalPixels <= 2000) return 'h-1 w-1';
+    const actualPixels = pixels.length;
+    if (actualPixels <= 100) return 'h-3 w-3';
+    if (actualPixels <= 300) return 'h-2.5 w-2.5';
+    if (actualPixels <= 500) return 'h-2 w-2';
+    if (actualPixels <= 1000) return 'h-1.5 w-1.5';
+    if (actualPixels <= 2000) return 'h-1 w-1';
     return 'h-0.5 w-0.5';
   };
 
@@ -72,24 +79,26 @@ const GameScreen = ({ onFinish, onAbandon, totalPixels = 300 }: GameScreenProps)
     <div className="w-full max-w-4xl space-y-4">
       <div className="flex justify-between items-center mb-4 bg-gray-900/50 p-4 rounded-lg">
         <div className="text-xl font-bold">
-          Píxeles restantes: {remainingPixels}
+          Píxeles restantes: {remainingPixels} / {pixels.length}
         </div>
         <div className="flex items-center gap-2 text-xl font-mono">
           <Timer className="w-6 h-6" />
           {elapsedTime}s
         </div>
       </div>
-      <div className={`grid ${getGridColumns()} gap-0.5 p-4 bg-gray-900/30 rounded-lg`}>
-        {pixels.map((clicked, index) => (
-          <button
-            key={index}
-            onClick={() => handlePixelClick(index)}
-            className={`${getPixelSize()} ${
-              clicked ? 'bg-primary' : 'bg-neutral-600'
-            } rounded-none hover:opacity-90 transition-colors`}
-          />
-        ))}
-      </div>
+      <ScrollArea className="h-[70vh] rounded-lg">
+        <div className={`grid ${getGridColumns()} gap-0.5 p-4 bg-gray-900/30 rounded-lg`}>
+          {pixels.map((clicked, index) => (
+            <button
+              key={index}
+              onClick={() => handlePixelClick(index)}
+              className={`${getPixelSize()} ${
+                clicked ? 'bg-primary' : 'bg-neutral-600'
+              } rounded-none hover:opacity-90 transition-colors`}
+            />
+          ))}
+        </div>
+      </ScrollArea>
       <Button 
         variant="outline" 
         onClick={handleAbandon}
